@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Empleado</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function validarFormulario() {
+            // Validación del nombre
+            var nombre = document.getElementById("nombre").value;
+            if (nombre.trim() === "") {
+                alert("El nombre es obligatorio.");
+                return false;
+            }
+
+            // Validación del puesto
+            var puesto = document.getElementById("puesto").value;
+            if (puesto.trim() === "") {
+                alert("El puesto es obligatorio.");
+                return false;
+            }
+
+            // Validación del email
+            var email = document.getElementById("email").value;
+            var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailRegex.test(email)) {
+                alert("Por favor ingresa un email válido.");
+                return false;
+            }
+
+            // Validación de la fecha de ingreso
+            var fechaIngreso = document.getElementById("fecha_ingreso").value;
+            if (fechaIngreso === "") {
+                alert("La fecha de ingreso es obligatoria.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Crear Nuevo Empleado</h1>
+        <form action="{{ url_for('crear_empleado') }}" method="post" onsubmit="return validarFormulario()">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            
+            <label for="puesto">Puesto:</label>
+            <input type="text" id="puesto" name="puesto" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="fecha_ingreso">Fecha de Ingreso:</label>
+            <input type="date" id="fecha_ingreso" name="fecha_ingreso" required>
+            
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+</body>
+</html>
