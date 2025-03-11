@@ -1,7 +1,7 @@
-# app.py
 from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
 from mysql.connector import Error
+import os
 
 app = Flask(__name__)
 app.secret_key = "clave_secreta_1234"
@@ -9,12 +9,23 @@ app.secret_key = "clave_secreta_1234"
 # Configuración de la conexión a MySQL
 def conectar_bd():
     try:
-        conexion = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="123456789",
-            database="gestion_empleados"
-        )
+        # Verifica si está en producción (PythonAnywhere) o en local
+        if "PYTHONANYWHERE_DOMAIN" in os.environ:
+            conexion = mysql.connector.connect(
+                host="MonseLopez216.mysql.pythonanywhere-services.com",  # Servidor de MySQL en PythonAnywhere
+                user="MonseLopez216",
+                password=os.getenv('DB_PASSWORD', '123456789'),  # Se recomienda definirlo en variables de entorno
+                database="MonseLopez216$gestion_empleados"
+            )
+        else:
+            # Configuración para desarrollo local
+            conexion = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="123456789",
+                database="gestion_empleados"
+            )
+
         if conexion.is_connected():
             return conexion
     except Error as e:
